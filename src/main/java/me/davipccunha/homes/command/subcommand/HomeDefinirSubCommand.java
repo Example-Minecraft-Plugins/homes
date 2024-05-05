@@ -27,11 +27,6 @@ public class HomeDefinirSubCommand implements HomeSubCommand {
             cache.add(player.getName(), homeUser);
         }
 
-        if (homeUser.hasHome(homeName)) {
-            player.sendMessage("§cVocê já tem uma home com esse nome.");
-            return true;
-        }
-
         final Location playerLocation = player.getLocation();
 
         final HomeLocation homeLocation = new HomeLocation(playerLocation.getWorld().getName(),
