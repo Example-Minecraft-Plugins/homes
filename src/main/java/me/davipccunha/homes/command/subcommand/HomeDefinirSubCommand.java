@@ -5,8 +5,14 @@ import me.davipccunha.homes.HomesPlugin;
 import me.davipccunha.homes.impl.HomeUserImpl;
 import me.davipccunha.homes.model.HomeLocation;
 import me.davipccunha.utils.cache.RedisCache;
+import me.davipccunha.utils.permission.PermissionUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+
+import java.util.Comparator;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class HomeDefinirSubCommand implements HomeSubCommand {
@@ -18,14 +24,28 @@ public class HomeDefinirSubCommand implements HomeSubCommand {
 
         if (args.length <= 1) return false;
 
-        final String homeName = args[1].toLowerCase();
-
         HomeUserImpl homeUser = cache.get(player.getName());
 
         if (homeUser == null) {
             homeUser = new HomeUserImpl(player.getName());
             cache.add(player.getName(), homeUser);
         }
+
+        Optional<PermissionAttachmentInfo> maxLimitPermission = player.getEffectivePermissions().stream()
+                .filter(permission -> permission.getPermission().startsWith("homes.limit."))
+                .max(Comparator.comparingInt(permission -> NumberUtils.toInt(permission.getPermission().split("\\.")[2])));
+
+        final int defaultMaxLimit = plugin.getConfig().getInt("default-max-limit");
+
+        final int maxLimit = maxLimitPermission.map(permissionAttachmentInfo ->
+                PermissionUtils.extractNumberSuffix(permissionAttachmentInfo.getPermission())).orElse(defaultMaxLimit);
+
+        if (homeUser.getHomeCount() >= maxLimit) {
+            player.sendMessage("§cVocê já atingiu seu limite de homes.");
+            return true;
+        }
+
+        final String homeName = args[1].toLowerCase();
 
         final Location playerLocation = player.getLocation();
 
