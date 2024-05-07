@@ -49,8 +49,7 @@ bukkit {
 
     commands {
         register("home") {
-            description = "Teleports the player to a saved location."
-            permission = "home.command"
+            description = "Teleporta o jogador para uma localização previamente salva"
             aliases = listOf("h")
         }
     }

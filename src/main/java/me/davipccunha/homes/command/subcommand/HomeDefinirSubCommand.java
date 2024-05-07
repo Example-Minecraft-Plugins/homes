@@ -40,7 +40,7 @@ public class HomeDefinirSubCommand implements HomeSubCommand {
         final int maxLimit = maxLimitPermission.map(permissionAttachmentInfo ->
                 PermissionUtils.extractNumberSuffix(permissionAttachmentInfo.getPermission())).orElse(defaultMaxLimit);
 
-        if (homeUser.getHomeCount() >= maxLimit) {
+        if (homeUser.getHomeCount() >= maxLimit && !player.hasPermission("homes.bypass-limit")) {
             player.sendMessage("§cVocê já atingiu seu limite de homes.");
             return true;
         }
