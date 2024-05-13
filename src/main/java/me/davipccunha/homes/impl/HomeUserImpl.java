@@ -12,27 +12,27 @@ import java.util.Set;
 @Getter
 @RequiredArgsConstructor
 public class HomeUserImpl implements HomeUser {
-    private final String playerName;
+    private final String username;
     private final Map<String, HomeLocation> homes = new HashMap<>();
 
     @Override
     public void createHome(String name, HomeLocation location) {
-        this.homes.put(name, location);
+        this.homes.put(name.toLowerCase(), location);
     }
 
     @Override
     public void deleteHome(String name) {
-        this.homes.remove(name);
+        this.homes.remove(name.toLowerCase());
     }
 
     @Override
     public HomeLocation getHome(String name) {
-        return this.homes.get(name);
+        return this.homes.get(name.toLowerCase());
     }
 
     @Override
     public boolean hasHome(String name) {
-        return this.homes.containsKey(name);
+        return this.homes.containsKey(name.toLowerCase());
     }
 
     @Override

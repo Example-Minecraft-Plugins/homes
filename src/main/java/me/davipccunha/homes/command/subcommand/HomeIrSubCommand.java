@@ -17,7 +17,7 @@ public class HomeIrSubCommand implements HomeSubCommand {
 
         final String homeName = args[1].toLowerCase();
 
-        final HomeUserImpl homeUser = plugin.getHomeUserCache().get(player.getName());
+        final HomeUserImpl homeUser = plugin.getHomeUserCache().get(player.getName().toLowerCase());
 
         if (homeUser == null || !homeUser.hasHome(homeName)) {
             player.sendMessage("§cVocê não tem uma home com esse nome.");
@@ -38,6 +38,6 @@ public class HomeIrSubCommand implements HomeSubCommand {
 
     @Override
     public String getUsage() {
-        return "§e/home ir <nome>";
+        return "/home ir <nome>";
     }
 }

@@ -24,11 +24,11 @@ public class HomeDefinirSubCommand implements HomeSubCommand {
 
         if (args.length <= 1) return false;
 
-        HomeUserImpl homeUser = cache.get(player.getName());
+        HomeUserImpl homeUser = cache.get(player.getName().toLowerCase());
 
         if (homeUser == null) {
             homeUser = new HomeUserImpl(player.getName());
-            cache.add(player.getName(), homeUser);
+            cache.add(player.getName().toLowerCase(), homeUser);
         }
 
         Optional<PermissionAttachmentInfo> maxLimitPermission = player.getEffectivePermissions().stream()
@@ -54,7 +54,7 @@ public class HomeDefinirSubCommand implements HomeSubCommand {
                 playerLocation.getPitch(), playerLocation.getYaw());
 
         homeUser.createHome(homeName, homeLocation);
-        cache.add(player.getName(), homeUser);
+        cache.add(player.getName().toLowerCase(), homeUser);
 
         player.sendMessage(String.format("§aHome §f%s §acriada com sucesso.", homeName));
 
@@ -63,6 +63,6 @@ public class HomeDefinirSubCommand implements HomeSubCommand {
 
     @Override
     public String getUsage() {
-        return "§e/home definir <nome>";
+        return "/home definir <nome>";
     }
 }

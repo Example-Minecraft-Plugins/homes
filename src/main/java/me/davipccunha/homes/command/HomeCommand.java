@@ -2,6 +2,7 @@ package me.davipccunha.homes.command;
 
 import me.davipccunha.homes.HomesPlugin;
 import me.davipccunha.homes.command.subcommand.*;
+import me.davipccunha.utils.messages.ErrorMessages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public class HomeCommand implements CommandExecutor {
 
     private void updateUsage() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("§e/home <");
+        stringBuilder.append("/home <");
         for (String subCommand : this.subCommands.keySet()) {
             stringBuilder.append(subCommand).append(" | ");
         }
@@ -34,7 +35,7 @@ public class HomeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§cApenas jogadores podem executar este comando.");
+            sender.sendMessage(ErrorMessages.EXECUTOR_NOT_PLAYER.getMessage());
             return false;
         }
 
@@ -48,7 +49,7 @@ public class HomeCommand implements CommandExecutor {
         final HomeSubCommand subCommand = this.subCommands.get(args[0]);
 
         if (subCommand == null) {
-            sender.sendMessage("§cSubcomando não encontrado.");
+            sender.sendMessage(ErrorMessages.SUBCOMMAND_NOT_FOUND.getMessage());
             sender.sendMessage("§cUso: " + COMMAND_USAGE);
             return false;
         }

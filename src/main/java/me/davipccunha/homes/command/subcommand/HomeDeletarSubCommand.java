@@ -18,7 +18,7 @@ public class HomeDeletarSubCommand implements HomeSubCommand {
 
         final String homeName = args[1].toLowerCase();
 
-        final HomeUserImpl homeUser = cache.get(player.getName());
+        final HomeUserImpl homeUser = cache.get(player.getName().toLowerCase());
 
         if (homeUser == null || !homeUser.hasHome(homeName)) {
             player.sendMessage("§cVocê não tem uma home com esse nome.");
@@ -28,9 +28,9 @@ public class HomeDeletarSubCommand implements HomeSubCommand {
         homeUser.deleteHome(homeName);
 
         if (homeUser.getHomeCount() <= 0) {
-            cache.remove(player.getName());
+            cache.remove(player.getName().toLowerCase());
         } else {
-            cache.add(player.getName(), homeUser);
+            cache.add(player.getName().toLowerCase(), homeUser);
         }
 
         player.sendMessage(String.format("§aHome §f%s §adeletada com sucesso.", homeName));
@@ -40,6 +40,6 @@ public class HomeDeletarSubCommand implements HomeSubCommand {
 
     @Override
     public String getUsage() {
-        return "§e/home deletar <nome>";
+        return "/home deletar <nome>";
     }
 }

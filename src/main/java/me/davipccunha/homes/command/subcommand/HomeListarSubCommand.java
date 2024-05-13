@@ -11,7 +11,7 @@ public class HomeListarSubCommand implements HomeSubCommand {
 
     @Override
     public boolean execute(Player player, String[] args) {
-        final HomeUserImpl homeUser = plugin.getHomeUserCache().get(player.getName());
+        final HomeUserImpl homeUser = plugin.getHomeUserCache().get(player.getName().toLowerCase());
 
         final int count = homeUser == null ? 0 : homeUser.getHomeCount();
 
@@ -26,6 +26,6 @@ public class HomeListarSubCommand implements HomeSubCommand {
 
     @Override
     public String getUsage() {
-        return "§e/home listar";
+        return "/home listar";
     }
 }
